@@ -1,0 +1,7 @@
+data/
+request*.json
+.env
+.env.*
+node_modules/
+*.log
+!examples/*.example.json

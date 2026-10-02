@@ -1,0 +1,24 @@
+{
+  "version": "2.1.0",
+  "offlineTests": {
+    "tests": 32,
+    "passed": 32,
+    "failed": 0,
+    "liveProviderCalls": 0
+  },
+  "publicationInspection": {
+    "trackedFilesScanned": 17,
+    "method": "Custom tracked-text pattern scan plus complete manual source inventory review; not a guarantee of absence of every possible secret",
+    "findings": 0,
+    "syntheticTestMatchesReviewed": 6
+  },
+  "operationalValidation": {
+    "localClaudeShortReadback": true,
+    "localAntigravityShortReadback": true,
+    "substantiveClaudeReviewResponsesReadbackVerified": 12,
+    "rawRuntimeEvidencePublished": false,
+    "cloudReplyRetrievalVerified": false,
+    "quotaRoutingImplemented": false
+  },
+  "productionCodeUnchanged": true
+}

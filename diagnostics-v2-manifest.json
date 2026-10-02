@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "version": "2.1.0",
+  "entry": "wrapper-diagnostics-v2.mjs",
+  "coreUnchanged": true,
+  "liveGenerations": 0,
+  "testsPassed": 32,
+  "files": [
+    {
+      "file": "wrapper.mjs",
+      "sha256": "15db7de8dab76a5f865c317306582d9556305285f3afe1e04da5c266a31c0558"
+    },
+    {
+      "file": "wrapper-diagnostics-v2.mjs",
+      "sha256": "f76d3d7fa553411e2b00cc202cfcff7ed2fb4d0f0b6c6a93fefc2dd5ec33ad83"
+    },
+    {
+      "file": "failure-diagnostics.mjs",
+      "sha256": "3d3fc0ad89808ce1faf3d42a6af72853ac47d8bcde81755b3df58a7988cb6847"
+    },
+    {
+      "file": "private-output.ps1",
+      "sha256": "b0a1a07c66c486247c87c1d86ccc9bb0df2f9652b9ee2323b8bcb0832c7c1582"
+    }
+  ]
+}

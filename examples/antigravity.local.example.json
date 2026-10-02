@@ -1,0 +1,15 @@
+{
+  "id": "REPLACE_WITH_NEW_UUID",
+  "provider": "antigravity",
+  "prompt": "Return exactly OK. Use no tools and perform no external actions.",
+  "timeoutSeconds": 120,
+  "captureResult": true,
+  "expectResponse": "OK",
+  "taskScope": {
+    "reviewed": true,
+    "acceptInheritedPermissions": true,
+    "acknowledgeInstructionScope": true,
+    "mode": "plan",
+    "description": "Reply only to the supplied text. No local or external actions are requested."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "version": "2.1.0",
+  "algorithm": "SHA-256",
+  "files": {
+    ".gitignore": "15f030b367646a24c289b9964f09d8303de57565f4cc83624d59bd9351bd1eb2",
+    "README.en.md": "e77f14dd88da68f2159f5498eb674db1b8b19c66288607fba64a3a1c9b6f3f45",
+    "README.md": "b42db75bdcad0e121e84705a56ce998dd03d9d4f9ae56c09b25fac5287d7a52d",
+    "SAFETY.md": "cb94c149b8c2cc6fb18cf6c804f00b0f2decd6d48e7eb47519f3aad74749e535",
+    "SPEC.md": "56bb8cc4c04180db0ba76b94b6a72838328de285d89961686a8d70dfe403df76",
+    "VALIDATION.json": "84ccf5b3f15fdad7c87a3b6d0b82dfdc154efdef2bc521a3d9e9c205e14457d7",
+    "diagnostics-v2-manifest.json": "3050e7b6eb34033e2b02638b413aa6b4dd5ddcc21b1e6bd048cce9324f883436",
+    "examples/antigravity.local.example.json": "9a370460d0a09ca7c58e90812f81965a365f357ae24e872fb815d068b57b6b90",
+    "examples/claude.local.example.json": "e2eb6fe9b99f8e9f38aca9ba1db71c66beaf655e254063fa32d02fde9424d925",
+    "failure-diagnostics.mjs": "3d3fc0ad89808ce1faf3d42a6af72853ac47d8bcde81755b3df58a7988cb6847",
+    "package.json": "cf7bea9a8707d2cb743a948c2bc29dec7b219bb3b29d29591213e00d6119d662",
+    "private-output.ps1": "b0a1a07c66c486247c87c1d86ccc9bb0df2f9652b9ee2323b8bcb0832c7c1582",
+    "test/failure-diagnostics.test.mjs": "668c2f8375cffb10feb2b1dd1de3de95af43ce26720a7807b098db14f60870c1",
+    "test/wrapper.test.mjs": "571fe9ddaa33cbbada1b0ee39db9316ac6d8f861fe386ea8950fdf2a2e0ef81d",
+    "wrapper-diagnostics-v2.mjs": "f76d3d7fa553411e2b00cc202cfcff7ed2fb4d0f0b6c6a93fefc2dd5ec33ad83",
+    "wrapper.mjs": "15db7de8dab76a5f865c317306582d9556305285f3afe1e04da5c266a31c0558"
+  }
+}

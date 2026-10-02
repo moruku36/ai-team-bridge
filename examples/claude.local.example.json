@@ -1,0 +1,8 @@
+{
+  "id": "REPLACE_WITH_NEW_UUID",
+  "provider": "claude",
+  "prompt": "Return exactly OK. Use no tools and perform no external actions.",
+  "timeoutSeconds": 120,
+  "captureResult": true,
+  "expectResponse": "OK"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "ai-team-bridge",
+  "version": "2.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Windows CLI bridge for bounded Claude Code and Antigravity requests",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}
