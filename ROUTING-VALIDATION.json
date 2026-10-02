@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "tests": {
+    "total": 86,
+    "passed": 86,
+    "failed": 0,
+    "offlineOnly": true,
+    "liveProviderCallsFromTests": 0
+  },
+  "authoring": {
+    "implementationAndFixesAuthoredBy": "Claude Code",
+    "responseReadbackAndArtifactBindingsVerified": true,
+    "record": "CLAUDE-AUTHORSHIP.json"
+  },
+  "existingCoreHashesUnchanged": true,
+  "syntheticDryRun": {
+    "eligible": 2,
+    "handoff": 1,
+    "blocked": 1,
+    "mockNeverAuthorizesLive": true
+  },
+  "realRoutedDelegations": 0,
+  "realQuotaCollectionVerified": false,
+  "cloudAnswerReadbackVerified": false,
+  "noDaemonOrStartupChanges": true
+}

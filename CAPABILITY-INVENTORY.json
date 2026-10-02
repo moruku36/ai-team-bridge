@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "observedDateUTC": "2026-10-02",
+  "windowsQuotaDisplay": {
+    "product": "Win-CodexBar",
+    "version": "0.60.3",
+    "installed": true,
+    "console": "codexbar-cli.exe",
+    "automaticCollectorInvoked": false,
+    "safeAutomaticCollectionVerified": false,
+    "blocker": "CLI source can fall back to credential-backed OAuth; no token-store or browser-cookie extraction is authorized"
+  },
+  "codexCli": {
+    "version": "0.30.0",
+    "appServerCommandListedInInstalledHelp": false,
+    "liveExecutorVerified": false
+  },
+  "claudeCli": {
+    "version": "2.1.287",
+    "existingSubscriptionLocalReadbackVerified": true,
+    "cloudFollowUpAcknowledgmentOnly": true,
+    "passiveCloudAnswerReadbackVerified": false
+  },
+  "collectorBoundary": {
+    "manualReviewed": true,
+    "mock": true,
+    "injectedSupportedExport": true,
+    "shippedAutomaticAdapters": 0
+  },
+  "temporaryPreference": {
+    "provider": "claude",
+    "expiresAt": "2026-10-03T07:00:00+09:00",
+    "timezone": "Asia/Tokyo",
+    "isProviderReset": false
+  },
+  "sources": [
+    "https://github.com/nesszer/Win-CodexBar/blob/v0.60.3/rust/src/providers/claude/mod.rs",
+    "https://code.claude.com/docs/en/claude-code-on-the-web",
+    "https://code.claude.com/docs/en/self-hosted-environments-testing"
+  ]
+}
