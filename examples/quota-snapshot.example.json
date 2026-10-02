@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "snapshots": [
+    {
+      "schema": 1,
+      "source": "mock",
+      "provider": "claude",
+      "accountScope": "claude-main",
+      "modelScope": "sonnet",
+      "observedAt": "2026-10-02T11:55:00Z",
+      "windows": [
+        { "name": "session", "remainingPercent": 80, "resetsAt": "2026-10-03T01:00:00+09:00", "resetTimezone": "Asia/Tokyo" },
+        { "name": "weekly", "remainingPercent": 60, "resetsAt": "2026-10-08T09:00:00+09:00", "resetTimezone": "Asia/Tokyo" }
+      ]
+    },
+    {
+      "schema": 1,
+      "source": "mock",
+      "provider": "antigravity",
+      "accountScope": "agy-main",
+      "modelScope": "gemini-3.8-flash-medium",
+      "observedAt": "2026-10-02T11:55:00Z",
+      "windows": [
+        { "name": "session", "remainingPercent": 70, "resetsAt": "2026-10-03T02:00:00+09:00", "resetTimezone": "Asia/Tokyo" }
+      ]
+    }
+  ]
+}

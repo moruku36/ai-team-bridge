@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "author": "Claude Code",
+  "requestedModel": "sonnet",
+  "observedModels": [
+    "claude-sonnet-5-5"
+  ],
+  "responseSha256": "81f84ef88d318c4b66c1fee707ca1c89f38847b3d0b30902762fb4ac42503960",
+  "readbackIntegrityVerified": true,
+  "artifactHashes": {
+    "quota-snapshots.mjs": "6f6a64cc2fbc660e62d4462d54a31739ed8ab8f67d722b818ff405ea95f34674",
+    "task-router.mjs": "6196679ac4a01b9d83c321f7ea509fd8563a5147aa67700602615cfaf9430d21",
+    "router-cli.mjs": "deba728569cc04431fc806b7bab1f260d17cdf6473eee9f4bf2928e37b5f6dea",
+    "test/quota-snapshots.test.mjs": "cdd8c094f294886da07b8d88e1e6ea0164dbdc68c294f5305ef38c00181868ea",
+    "test/task-router.test.mjs": "b0bda89eb30cfa8f6e26a7c77ffe4343a65bef0c4a678590aeaaf3abf0ee112d",
+    "docs/QUOTA-ROUTING.md": "83a81276e9c9d3c8a6c461a0036e91a2fec2397f96b3443d26e669a70ebf4eee",
+    "docs/CLOUD-READBACK.md": "43d06fce04d201c43f53fbf505ec3f23190e2a19af3f3415d5e3cad8989d09f0",
+    "examples/routing-queue.example.json": "41c179bf2e9c0677d4202ce15f45ade3ff4d0af885303598c2aa348bc98e41e8",
+    "examples/quota-snapshot.example.json": "749fb79da7ea45bec5247e4ee1f0c66b84a385933890890c721530b15f9f4925",
+    "examples/routing-policy.example.json": "148c81e44807179e6caaf5c50aedf061a6a9808d716c8ba31afcaeaab739e2bd",
+    "test/routing-review.test.mjs": "a01701715c1b00a50332cae94b9076e2d4385900c563e874b9a7f6b1f0703b1c",
+    "test/routing-capture.test.mjs": "380ff5c84dbe44d869989abd0cbb6489a70b2cac28a1bf1006b83f2aaa6a9acc"
+  },
+  "proofLimitation": "Local response and artifact hash binding; not a signed identity attestation.",
+  "normalization": "One empty extra document key was excluded; no authored code text was changed.",
+  "revisions": [
+    {
+      "author": "Claude Code",
+      "responseSha256": "7871d30d3f6cdd10ca226d477431bc55e43f28aaab227cabb29ecab879ed9820",
+      "readbackIntegrityVerified": true,
+      "observedModels": [
+        "claude-sonnet-5-5"
+      ],
+      "method": "Exact single-match text edits authored by Claude",
+      "artifactHashes": {
+        "quota-snapshots.mjs": "6f6a64cc2fbc660e62d4462d54a31739ed8ab8f67d722b818ff405ea95f34674",
+        "task-router.mjs": "aa15a92445c31940afb1579487ff40944bbc1de7d6f9db4fbf895dc0f63977ee",
+        "router-cli.mjs": "151960fc6564384d25e03c0a68a6326c75635577ab011c59e85566511eb0794d",
+        "test/task-router.test.mjs": "b0bda89eb30cfa8f6e26a7c77ffe4343a65bef0c4a678590aeaaf3abf0ee112d",
+        "docs/QUOTA-ROUTING.md": "80c22b55698f5b8b28b7a83c3bba8acf9f6ab65e6040fee77ca23f23fa7f8e30",
+        "test/routing-review.test.mjs": "a01701715c1b00a50332cae94b9076e2d4385900c563e874b9a7f6b1f0703b1c"
+      }
+    },
+    {
+      "author": "Claude Code",
+      "responseSha256": "fd6d5f79c1fb12eba049cbb1254c5afa37059ae91d3a9ff8730cb36147ee494b",
+      "readbackIntegrityVerified": true,
+      "observedModels": [
+        "claude-sonnet-5-5"
+      ],
+      "method": "Exact single-match text edits authored by Claude",
+      "artifactHashes": {
+        "task-router.mjs": "6196679ac4a01b9d83c321f7ea509fd8563a5147aa67700602615cfaf9430d21",
+        "router-cli.mjs": "deba728569cc04431fc806b7bab1f260d17cdf6473eee9f4bf2928e37b5f6dea",
+        "docs/QUOTA-ROUTING.md": "83a81276e9c9d3c8a6c461a0036e91a2fec2397f96b3443d26e669a70ebf4eee",
+        "test/routing-capture.test.mjs": "a5f87969778426157bc58a4612073447b2f8066f95eb0928f0f7add9e3bf9565"
+      }
+    },
+    {
+      "author": "Claude Code",
+      "responseSha256": "c0c2195d1fb912d16d48be505d6a5b0b596594e9739ed77c7bad1d657fd5c5c6",
+      "readbackIntegrityVerified": true,
+      "observedModels": [
+        "claude-sonnet-5-5"
+      ],
+      "method": "Exact single-match text edits authored by Claude",
+      "artifactHashes": {
+        "test/routing-capture.test.mjs": "380ff5c84dbe44d869989abd0cbb6489a70b2cac28a1bf1006b83f2aaa6a9acc"
+      }
+    }
+  ]
+}
