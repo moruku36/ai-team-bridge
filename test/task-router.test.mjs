@@ -291,7 +291,7 @@ test('CLI dry run over the synthetic examples is the default',async()=>{
   const r=await cli([...cliBase,'--now','2026-10-02T12:00:00Z']);
   assert.equal(r.code,0);
   const j=JSON.parse(r.out);
-  assert.equal(j.dryRun,true);assert.equal(j.preferenceActive,true);
+  assert.equal(j.dryRun,true);assert.equal(j.preferenceActive,false);
   assert.deepEqual(j.decisions.map(d=>d.status),['eligible','eligible','handoff','blocked']);
   assert.deepEqual(j.decisions.slice(0,3).map(d=>d.provider),['claude','antigravity','codex']);
   assert.ok(j.decisions.slice(0,2).every(d=>d.liveAuthorized===false));

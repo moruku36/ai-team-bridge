@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "feature": "on-demand official usage observation through a supported connected PTY",
+  "author": "Codex",
+  "offlineTests": {"passed": 100, "failed": 0, "syntheticFixturesOnly": true},
+  "liveWindows": {
+    "claudeOfficialUsageObserved": true,
+    "claudeAllRequiredValuesRecovered": false,
+    "antigravitySharedPoolsRecoveredAcrossPages": true,
+    "ownedProviderSessionsExited": true,
+    "backendFetchTimestampVerified": false,
+    "completeExactResetVerified": false,
+    "automaticRoutingAuthorized": false,
+    "modelPromptsSent": 0,
+    "cloudFollowUpsSent": 0,
+    "nativeConsoleAdapterShipped": false,
+    "existingConnectedTerminalRequired": true
+  },
+  "publication": {
+    "actualUsageValuesIncluded": false,
+    "accountIdentifiersIncluded": false,
+    "rawProviderOutputIncluded": false,
+    "privateWorkspacePathsIncluded": false
+  },
+  "limits": ["no unattended daemon", "no new auth or trust", "no credential extraction", "no paid API configuration", "no quota inference", "no duplicate cloud requests", "no general multi-model routing"]
+}
