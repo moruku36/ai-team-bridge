@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "reviewed": true,
+  "preference": { "provider": "claude", "until": "2026-10-03T07:00:00+09:00" },
+  "providers": [
+    {
+      "provider": "claude",
+      "mode": "dispatch",
+      "accountScope": "claude-main",
+      "modelScope": "sonnet",
+      "roles": ["draft", "implementation"],
+      "maxSize": "large",
+      "maxAgeSeconds": 900,
+      "requiredWindows": ["session", "weekly"],
+      "reservePercent": { "session": 10, "weekly": 10 }
+    },
+    {
+      "provider": "antigravity",
+      "mode": "dispatch",
+      "accountScope": "agy-main",
+      "modelScope": "gemini-3.8-flash-medium",
+      "roles": ["draft", "prototype"],
+      "maxSize": "medium",
+      "maxAgeSeconds": 900,
+      "requiredWindows": ["session"],
+      "reservePercent": { "session": 10 }
+    },
+    {
+      "provider": "codex",
+      "mode": "handoff",
+      "roles": ["coordination", "verification", "review"],
+      "maxSize": "large"
+    }
+  ]
+}
