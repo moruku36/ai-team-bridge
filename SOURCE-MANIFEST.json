@@ -3,8 +3,7 @@
   "algorithm": "SHA-256",
   "files": {
     ".gitignore": "15f030b367646a24c289b9964f09d8303de57565f4cc83624d59bd9351bd1eb2",
-    "README.en.md": "e77f14dd88da68f2159f5498eb674db1b8b19c66288607fba64a3a1c9b6f3f45",
-    "README.md": "b42db75bdcad0e121e84705a56ce998dd03d9d4f9ae56c09b25fac5287d7a52d",
+    "README.md": "96c9ed1636322ae50710d6aedcb1b51ad58cfd99daa33ae2496c6f98acef49e3",
     "SAFETY.md": "cb94c149b8c2cc6fb18cf6c804f00b0f2decd6d48e7eb47519f3aad74749e535",
     "SPEC.md": "56bb8cc4c04180db0ba76b94b6a72838328de285d89961686a8d70dfe403df76",
     "VALIDATION.json": "84ccf5b3f15fdad7c87a3b6d0b82dfdc154efdef2bc521a3d9e9c205e14457d7",
@@ -17,6 +16,7 @@
     "test/failure-diagnostics.test.mjs": "668c2f8375cffb10feb2b1dd1de3de95af43ce26720a7807b098db14f60870c1",
     "test/wrapper.test.mjs": "571fe9ddaa33cbbada1b0ee39db9316ac6d8f861fe386ea8950fdf2a2e0ef81d",
     "wrapper-diagnostics-v2.mjs": "f76d3d7fa553411e2b00cc202cfcff7ed2fb4d0f0b6c6a93fefc2dd5ec33ad83",
-    "wrapper.mjs": "15db7de8dab76a5f865c317306582d9556305285f3afe1e04da5c266a31c0558"
+    "wrapper.mjs": "15db7de8dab76a5f865c317306582d9556305285f3afe1e04da5c266a31c0558",
+    "README.ja.md": "0efd43854212f1111b41934bf85664ce05cb75cb91ee28ff77b69b4727d9a7a2"
   }
 }
