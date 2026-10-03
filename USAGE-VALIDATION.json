@@ -3,7 +3,7 @@
   "feature": "on-demand official usage observation through a supported connected PTY",
   "author": "Codex",
   "offlineTests": {
-    "passed": 108,
+    "passed": 115,
     "failed": 0,
     "syntheticFixturesOnly": true
   },
@@ -20,10 +20,15 @@
     "nativeConsoleAdapterShipped": false,
     "existingConnectedTerminalRequired": true,
     "bundledConnectedHost": true,
-    "claudeBundledHostPassed": false,
+    "claudeBundledHostPassed": true,
     "antigravityBundledHostPassed": true,
     "claudeFailedObservationDiscarded": true,
-    "usageHostDoesNotGuaranteeForcedTermination": true
+    "usageHostDoesNotGuaranteeForcedTermination": true,
+    "claudeBundledHostLifecyclePassed": true,
+    "claudeLiveForcedStopUsed": false,
+    "claudeLiveDisplayRateLimited": true,
+    "strictOwnedStopLiveVerified": false,
+    "strictOwnedStopSyntheticVerified": true
   },
   "publication": {
     "actualUsageValuesIncluded": false,
@@ -44,6 +49,10 @@
     "claudeTextReviewRecovered": true,
     "antigravityTextReviewRecovered": true,
     "privateHashReadbackVerified": true,
-    "reviewTranscriptsIncluded": false
+    "reviewTranscriptsIncluded": false,
+    "claudeCleanupFixRecovered": true,
+    "antigravityCleanupReviewRecovered": true,
+    "antigravityAppliedCleanupReviewPassed": false,
+    "antigravityAppliedCleanupReviewOutcome": "provider_failed"
   }
 }

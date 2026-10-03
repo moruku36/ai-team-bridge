@@ -24,7 +24,12 @@ export class UsageTerminal {
     const screen=terminalScreen(this.raw);
     if(this.phase==='starting') {
       const ready=this.provider==='claude'?/Claude Code v/.test(this.raw)&&/effort:/.test(this.raw):/Antigravity CLI/.test(this.raw)&&/for shortcuts/.test(this.raw);
-      if(ready){this.phase='usage';return {action:'write',text:'/usage\r'};}
+      if(ready){
+        if(this.provider==='claude'){this.phase='warm';return {action:'read'};}
+        this.phase='usage';return {action:'write',text:'/usage\r'};
+      }
+    }else if(this.phase==='warm') {
+      this.phase='usage';return {action:'write',text:'/usage\r'};
     }else if(this.phase==='usage') {
       const panel=this.provider==='claude'?/Current session/.test(screen):/Weekly Limit Remaining/.test(screen)&&/Five Hour Limit Remaining/.test(screen);
       if(panel){this.phase='settle';return {action:'read'};}

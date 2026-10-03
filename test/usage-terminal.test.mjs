@@ -5,7 +5,8 @@ const start='Claude Code v2.1.287\r\neffort: medium\r\n$';
 const panel='\x1b[2J\x1b[HCurrent session\r\n20% used\r\nResets 7:30am (Asia/Tokyo)\r\nCurrent week (all models)\r\n50% used\r\nResets Oct 3, 5am (Asia/Tokyo)';
 test('protocol sends only usage once and exits its own session after settling',()=>{
  const p=new UsageTerminal('claude');assert.equal(p.reply({output:'starting'}).action,'read');
- assert.deepEqual(p.reply({output:start}),{action:'write',text:'/usage\r'});
+ assert.deepEqual(p.reply({output:start}),{action:'read'});
+ assert.deepEqual(p.reply({output:''}),{action:'write',text:'/usage\r'});
  assert.equal(p.reply({output:panel}).action,'read');
  const final=p.reply({output:''});assert.equal(final.action,'exit-own-session');assert.deepEqual(final.texts,['\u001b','/exit\r']);
  assert.equal(final.result.pools[0].windows[0].remainingPercent,80);assert.equal(final.result.routerAuthorized,false);

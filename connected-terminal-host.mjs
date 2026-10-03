@@ -2,6 +2,22 @@
 // Works with the already connected terminal's exec/exchange capabilities.
 // Never log tool results: provider headers can contain account identifiers.
 const PROVIDERS=['claude','antigravity'];
+export function ownedClaudeStopCommand(owner,nonce) {
+  if(!owner||!Number.isSafeInteger(owner.pid)||owner.pid<=0||typeof owner.ticks!=='string'||!/^\d{15,20}$/.test(owner.ticks)||typeof nonce!=='string'||!/^[a-f0-9]{32}$/.test(nonce))throw Error('invalid_owner');
+  return String.raw`$ErrorActionPreference='Stop';$ownerId=${owner.pid};$ownerTicks='${owner.ticks}';$nonce='${nonce}';
+$shell=Get-CimInstance Win32_Process -Filter "ProcessId=$ownerId";
+$parent=Get-Process -Id $ownerId -ErrorAction SilentlyContinue;
+$exe=Join-Path $env:USERPROFILE '.local\bin\claude.exe';$expected='"'+$exe+'" --safe-mode --tools "" --strict-mcp-config --model sonnet --ax-screen-reader';
+if(-not $shell -or -not $parent -or [string]$parent.StartTime.ToUniversalTime().Ticks -ne $ownerTicks -or -not $shell.CommandLine.Contains('USAGE_OWNER_'+$nonce+':') -or $shell.ExecutablePath -ine (Join-Path $PSHOME 'pwsh.exe')){[pscustomobject]@{matched=0;childExited=$false}|ConvertTo-Json -Compress;exit 3}
+$children=@(Get-CimInstance Win32_Process -Filter "ParentProcessId=$ownerId"|Where-Object{$_.ExecutablePath -ieq $exe -and $_.CommandLine -ceq $expected -and $_.CreationDate -ge $shell.CreationDate});
+if($children.Count -ne 1){[pscustomobject]@{matched=0;childExited=$false}|ConvertTo-Json -Compress;exit 3}
+$target=$children[0];$targetId=$target.ProcessId;$created=$target.CreationDate;
+$again=Get-CimInstance Win32_Process -Filter "ProcessId=$targetId";$parentAgain=Get-Process -Id $ownerId -ErrorAction SilentlyContinue;
+if(-not $again -or -not $parentAgain -or [string]$parentAgain.StartTime.ToUniversalTime().Ticks -ne $ownerTicks -or $again.ParentProcessId -ne $ownerId -or $again.CreationDate -ne $created -or $again.ExecutablePath -ine $exe -or $again.CommandLine -cne $expected){[pscustomobject]@{matched=0;childExited=$false}|ConvertTo-Json -Compress;exit 3}
+Stop-Process -Id $targetId -ErrorAction Stop;Wait-Process -Id $targetId -Timeout 5 -ErrorAction SilentlyContinue;
+$gone=-not (Get-CimInstance Win32_Process -Filter "ProcessId=$targetId"|Where-Object{$_.CreationDate -eq $created});
+[pscustomobject]@{matched=1;childExited=$gone}|ConvertTo-Json -Compress;if(-not $gone){exit 4}`;
+}
 const absolute=v=>typeof v==='string'&&/^[A-Za-z]:[\\/]/.test(v)&&!/[\x00-\x1f]/.test(v);
 const stripTerminal=s=>s.replace(/\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)/g,'').replace(/\x1b\[[0-9;?<>!]*[ -\/]*[@-~]/g,'');
 export function decodeHostAction(output) {
@@ -47,12 +63,12 @@ function safeObservation(result,provider) {
 export async function collectConnectedUsage(provider,{terminal,workspace,sourceDirectory,confirmDisplayOnly=false,confirmPreviouslyTrustedWorkspace=false,signal,onProgress,now=()=>Date.now(),maximumDurationSeconds=90}={}) {
   const blocked=reason=>({schema:1,outcome:'blocked',provider:PROVIDERS.includes(provider)?provider:null,reason,routerAuthorized:false});
   if(!PROVIDERS.includes(provider)||!absolute(workspace)||!absolute(sourceDirectory)||workspace.toLowerCase()===sourceDirectory.toLowerCase()||confirmDisplayOnly!==true||confirmPreviouslyTrustedWorkspace!==true||!terminal||typeof terminal.exec!=='function'||typeof terminal.exchange!=='function'||!Number.isInteger(maximumDurationSeconds)||maximumDurationSeconds<10||maximumDurationSeconds>90)return blocked('invalid_host_request');
-  let cliId=null,protocolId=null,cliClosed=false,protocolClosed=false,result,usageWrites=0,pages=0,frameBuffer='';
+  let cliId=null,protocolId=null,cliClosed=false,protocolClosed=false,result,usageWrites=0,pages=0,frameBuffer='',nonce=null,owner=null,ownerBuffer='',forcedStop=false,gracefulExitAttempted=false;
   const auxiliary=new Map();
   const started=now();
   const progress=stage=>{try{onProgress?.({provider,stage});}catch{}};
   const expired=()=>now()-started>maximumDurationSeconds*1000;
-  const exec=(cmd,workdir,tty=false,privileged=false)=>terminal.exec({cmd,workdir,tty,yield_time_ms:tty?1000:10000,max_output_tokens:7000,...(privileged?{sandbox_permissions:'require_escalated',justification:'Read the official usage display using existing subscription and previously trusted empty workspace only. No model prompt, login, new trust or security change.'}:{})});
+  const exec=(cmd,workdir,tty=false,privileged=false)=>terminal.exec({cmd,workdir,tty,yield_time_ms:tty?1000:10000,max_output_tokens:7000,...(privileged?{sandbox_permissions:'require_escalated',justification:typeof privileged==='string'?privileged:'Read the official usage display using existing subscription and previously trusted empty workspace only. No model prompt, login, new trust or security change.'}:{})});
   const exchange=(id,chars='')=>terminal.exchange({session_id:id,chars,yield_time_ms:1000,max_output_tokens:7000});
   const completedRead=async(cmd,workdir,privileged=false)=>{
     let reply=await exec(cmd,workdir,false,privileged),output=reply.output??'';
@@ -75,12 +91,36 @@ export async function collectConnectedUsage(provider,{terminal,workspace,sourceD
     }
     throw Error('invalid_protocol_frame');
   };
+  const noteOwner=output=>{
+    if(provider!=='claude'||owner||!nonce)return;
+    ownerBuffer=(ownerBuffer+(output??'')).slice(-4096);
+    const m=new RegExp('USAGE_OWNER_'+nonce+':(\\d{1,10}):(\\d{15,20})(?!\\d)').exec(stripTerminal(ownerBuffer));
+    if(m&&Number(m[1])>0)owner={pid:Number(m[1]),ticks:m[2]};
+  };
+  const cliExchange=async(chars='')=>{const r=await exchange(cliId,chars);noteOwner(r.output);return r;};
+  const stopOwned=async()=>{
+    if(provider!=='claude'||!owner||!nonce)return;
+    const script=ownedClaudeStopCommand(owner,nonce);
+    try{
+      const r=await exec(script,workspace,false,'Stop only the exact Claude child this run launched, verifying owned parent PID/start time and exact child path, command and creation time twice; verify child exit. No other processes or settings.');
+      // A stop call which outlives its bounded first read is not accepted.
+      if(r.session_id!==undefined)auxiliary.set(r.session_id,r.exit_code!==undefined);
+      const v=JSON.parse(r.output??'');
+      if(r.exit_code===0&&v.matched===1&&v.childExited===true){forcedStop=true;for(let i=0;i<2&&!cliClosed;i++){const end=await cliExchange();cliClosed=end.exit_code!==undefined;}}
+    }catch{}
+  };
   const closeCli=async()=>{
     if(cliId===null||cliClosed)return;
-    try{const r=await exchange(cliId);cliClosed=r.exit_code!==undefined;}catch{}
+    try{const r=await cliExchange();cliClosed=r.exit_code!==undefined;}catch{}
     if(cliClosed)return;
+    if(provider==='claude'&&!gracefulExitAttempted){
+      gracefulExitAttempted=true;
+      for(const text of ['\u001b','/exit\r']){try{const r=await cliExchange(text);cliClosed=r.exit_code!==undefined;}catch{}if(cliClosed)return;}
+      for(let i=0;i<2&&!cliClosed;i++)try{const r=await cliExchange();cliClosed=r.exit_code!==undefined;}catch{break;}
+    }
     for(let i=0;i<2&&!cliClosed;i++)try{const r=await exchange(cliId,'\u0003');cliClosed=r.exit_code!==undefined;}catch{break;}
     for(let i=0;i<2&&!cliClosed;i++)try{const r=await exchange(cliId);cliClosed=r.exit_code!==undefined;}catch{break;}
+    if(!cliClosed)await stopOwned();
   };
   const closeProtocol=async()=>{
     if(protocolId===null||protocolClosed)return;
@@ -92,9 +132,10 @@ export async function collectConnectedUsage(provider,{terminal,workspace,sourceD
   try {
     if(signal?.aborted)return blocked('collection_canceled');
     progress('preflight');
-    const probe=await completedRead("$item=Get-Item -LiteralPath . -Force; [pscustomobject]@{empty=(@(Get-ChildItem -LiteralPath . -Force).Count -eq 0);reparse=(($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0)} | ConvertTo-Json -Compress",workspace);
+    const probe=await completedRead("$item=Get-Item -LiteralPath . -Force; [pscustomobject]@{empty=(@(Get-ChildItem -LiteralPath . -Force).Count -eq 0);reparse=(($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0);launchNonce=([guid]::NewGuid().ToString('N'))} | ConvertTo-Json -Compress",workspace);
     let verified;try{verified=JSON.parse(probe.output);}catch{throw Error('workspace_verification_failed');}
     if(probe.exit_code!==0||verified.empty!==true||verified.reparse!==false)throw Error('workspace_not_empty_or_unverified');
+    if(provider==='claude'&&typeof verified.launchNonce==='string'&&/^[a-f0-9]{32}$/.test(verified.launchNonce))nonce=verified.launchNonce;
     const auth=await completedRead("node '"+(sourceDirectory.replace(/'/g,"''")+'\\usage-preflight.mjs')+"' --provider "+provider,workspace,true);
     let ready=false;try{ready=auth.exit_code===0&&JSON.parse(auth.output).ready===true;}catch{}
     if(!ready)throw Error('existing_subscription_unavailable');
@@ -104,9 +145,10 @@ export async function collectConnectedUsage(provider,{terminal,workspace,sourceD
     const first=await readFrame(protocol);
     if(first.action!=='start-approved-pty'||first.provider!==provider||first.rawInputEchoDisabled!==true)throw Error('protocol_start_failed');
     progress('starting');
-    const command=provider==='claude'?"& (Join-Path $env:USERPROFILE '.local\\bin\\claude.exe') --safe-mode --tools '' --strict-mcp-config --model sonnet --ax-screen-reader":"& (Join-Path $env:USERPROFILE 'AppData\\Local\\agy\\bin\\agy.exe') --model gemini-3.8-flash-medium --mode plan --sandbox";
+    const command=provider==='claude'?(nonce?"Write-Output ('USAGE_OWNER_"+nonce+":'+$PID+':'+(Get-Process -Id $PID).StartTime.ToUniversalTime().Ticks); ":'')+"& (Join-Path $env:USERPROFILE '.local\\bin\\claude.exe') --safe-mode --tools '' --strict-mcp-config --model sonnet --ax-screen-reader":"& (Join-Path $env:USERPROFILE 'AppData\\Local\\agy\\bin\\agy.exe') --model gemini-3.8-flash-medium --mode plan --sandbox";
     let chunk=await exec(command,workspace,true,true);
     if(chunk.session_id===undefined)throw Error('provider_start_failed');cliId=chunk.session_id;cliClosed=chunk.exit_code!==undefined;
+    noteOwner(chunk.output);
     for(let i=0;i<20;i++) {
       if(signal?.aborted)throw Error('collection_canceled');if(expired())throw Error('collection_timeout');
       const response=await exchange(protocolId,JSON.stringify({output:chunk.output??'',exited:chunk.exit_code!==undefined})+'\n');
@@ -115,12 +157,13 @@ export async function collectConnectedUsage(provider,{terminal,workspace,sourceD
         if(action.text==='/usage\r'&&usageWrites++===0){progress('usage');}
         else if(action.text==='\u001b[6~'&&usageWrites===1&&pages++<2){progress('page');}
         else throw Error('invalid_protocol_action');
-        chunk=await exchange(cliId,action.text);cliClosed=chunk.exit_code!==undefined;
-      }else if(action.action==='read'){chunk=await exchange(cliId);cliClosed=chunk.exit_code!==undefined;}
+        chunk=await cliExchange(action.text);cliClosed=chunk.exit_code!==undefined;
+      }else if(action.action==='read'){chunk=await cliExchange();cliClosed=chunk.exit_code!==undefined;}
       else if(action.action==='exit-own-session') {
         if(usageWrites!==1||JSON.stringify(action.texts)!==JSON.stringify(['\u001b','/exit\r']))throw Error('invalid_protocol_action');
         result=safeObservation(action.result,provider);progress('closing');
-        for(const text of action.texts){const r=await exchange(cliId,text);cliClosed=r.exit_code!==undefined;if(cliClosed)break;}
+        gracefulExitAttempted=true;
+        for(const text of action.texts){const r=await cliExchange(text);cliClosed=r.exit_code!==undefined;if(cliClosed)break;}
         break;
       }else if(action.action==='close-own-session'||action.action==='done') {
         const reasons=['collection_canceled','collection_timeout','interactive_approval_required','output_limit','cli_exited_before_panel','invalid_terminal_reply'];
@@ -137,6 +180,8 @@ export async function collectConnectedUsage(provider,{terminal,workspace,sourceD
   }
   const cleanup={ownedProviderExited:cliId===null||cliClosed,ownedProtocolExited:protocolId===null||protocolClosed,ownedPreflightExited:[...auxiliary.values()].every(Boolean)};
   if(Object.values(cleanup).some(v=>!v))return {...blocked('cleanup_unconfirmed'),cleanup};
+  if(provider==='claude')cleanup.forcedStop=forcedStop;
+  if(forcedStop&&result.outcome!=='blocked')result=blocked('provider_forced_stop');
   progress('done');
   return {...result,collection:{host:'connected-terminal',singleRun:true,usageCommands:usageWrites,pageCommands:pages,modelPrompts:0,cleanup}};
 }
