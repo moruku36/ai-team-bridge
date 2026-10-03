@@ -17,7 +17,7 @@ multi-ai-workflow describes bounded assignment, independent review, and verifica
 - Antigravity/Gemini handles selected work.
 - Codex coordinates or independently verifies, according to the selected workflow.
 
-Task routing assigns who works; execution controls determine which actions are allowed. This bridge is a local transport and result-handoff component of that design. It is not an automatic router, it does not determine or expand those roles or any agent's permissions, and it does not enforce every organizational role assignment.
+Task routing assigns who works; execution controls determine which actions are allowed. This bridge is a local transport and result-handoff component of that design. The optional bounded router enforces reviewed quota snapshots and task policy; it does not determine or expand roles or agent permissions.
 
 ## Requirements
 
@@ -56,9 +56,9 @@ Use `examples/antigravity.local.example.json` for Antigravity only after reviewi
 
 - Local paths and short responses were verified with both providers: capture, hash check, and readback.
 - 12 substantive Claude review responses were verified through readback and hash checks. The requests and responses are not published.
-- 32 offline tests cover request validation, duplicate prevention, process handling, result retention, and diagnostic suppression and redaction. They do not replace live provider checks.
+- 133 offline tests cover request validation, duplicate prevention, process handling, result retention, and diagnostic suppression and redaction. They do not replace live provider checks.
 
-For existing Claude cloud sessions, only queue receipt is confirmed. Receipt is not reply retrieval; cloud replies and remote completion remain unverified. There is no equivalent Antigravity cloud route. Automatic quota routing, provider fallback, and a continuous worker are not implemented.
+For existing Claude cloud sessions, only queue receipt is confirmed. Receipt is not reply retrieval; cloud replies and remote completion remain unverified. There is no equivalent Antigravity cloud route. Bounded routing from reviewed normalized snapshots is implemented; automatic complete quota-to-routing, provider fallback and a continuous worker are not implemented.
 
 Prompts are limited to 64 KiB of UTF-8. Timeouts are 1–600 seconds, default 120. Output is capped at 2 MiB. A UUID is reserved per request and there is no automatic retry. Cancellation targets only the owned child process; descendants or remote work may survive. `accepted` is an acknowledgment, `executed` is a local final answer, `verified` additionally matches a supplied string, and `unknown` does not establish completion. String or hash matching is not semantic accuracy.
 
@@ -71,3 +71,11 @@ Captured output is private. Responses and diagnostics stay in `data/requests/` u
 ## Public content
 
 This repository contains only source, synthetic examples, tests, and documentation. It contains no real requests or responses, credentials, quota or account records, real session URLs, or personal absolute paths. No license is granted; public visibility does not imply MIT or any other license.
+
+## On-demand usage and routing
+
+See [official usage collection](docs/OFFICIAL-USAGE.md) for the bundled connected-terminal host, empty trusted workspace requirements, output redaction and bounded cleanup. AGY paging/exit passed live; Claude host lifecycle now passed live with graceful verified exit; its rate-limited quota display remained unknown. Missing freshness or exact resets remain unknown. [Quota routing](docs/QUOTA-ROUTING.md) accepts separately reviewed normalized snapshots; collection alone never authorizes dispatch. Run the full synthetic suite with `node --test`.
+
+## Reviewed observation selection
+
+[Usage-to-queue dry runs](docs/USAGE-SELECTION.md) select review candidates from recent reviewed known percentages while preserving unknown backend/reset evidence. No inferred deadline or execution permission is produced. Collection needs the connected host; the selector CLI runs on reviewed local JSON. CodexBar/Codex normalization is unsupported.

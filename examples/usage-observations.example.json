@@ -1,0 +1,145 @@
+{
+  "schema": 1,
+  "reviewed": true,
+  "observations": [
+    {
+      "schema": 1,
+      "provider": "antigravity",
+      "source": "official-interactive-usage",
+      "observedAt": "2031-04-02T12:00:00Z",
+      "backendAt": null,
+      "freshness": "backend-time-not-exposed",
+      "rateLimited": false,
+      "modelBreakdownUnavailable": false,
+      "missingPools": false,
+      "routerAuthorized": false,
+      "pools": [
+        {
+          "pool": "gemini-shared",
+          "windows": [
+            {
+              "name": "five-hour",
+              "remainingPercent": 80,
+              "quantitySource": {
+                "kind": "remaining",
+                "value": 80,
+                "operation": "identity"
+              },
+              "reset": {
+                "kind": "relative-rounded",
+                "relativeMinutes": 180,
+                "absolute": null,
+                "timezone": null
+              },
+              "unavailable": false
+            },
+            {
+              "name": "weekly",
+              "remainingPercent": 70,
+              "quantitySource": {
+                "kind": "remaining",
+                "value": 70,
+                "operation": "identity"
+              },
+              "reset": {
+                "kind": "relative-rounded",
+                "relativeMinutes": 180,
+                "absolute": null,
+                "timezone": null
+              },
+              "unavailable": false
+            }
+          ]
+        },
+        {
+          "pool": "claude-gpt-shared",
+          "windows": [
+            {
+              "name": "five-hour",
+              "remainingPercent": 90,
+              "quantitySource": {
+                "kind": "remaining",
+                "value": 90,
+                "operation": "identity"
+              },
+              "reset": {
+                "kind": "relative-rounded",
+                "relativeMinutes": 180,
+                "absolute": null,
+                "timezone": null
+              },
+              "unavailable": false
+            },
+            {
+              "name": "weekly",
+              "remainingPercent": 85,
+              "quantitySource": {
+                "kind": "remaining",
+                "value": 85,
+                "operation": "identity"
+              },
+              "reset": {
+                "kind": "relative-rounded",
+                "relativeMinutes": 180,
+                "absolute": null,
+                "timezone": null
+              },
+              "unavailable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "provider": "claude",
+      "source": "official-interactive-usage",
+      "observedAt": "2031-04-02T12:00:00Z",
+      "backendAt": null,
+      "freshness": "backend-time-not-exposed",
+      "rateLimited": false,
+      "modelBreakdownUnavailable": false,
+      "missingPools": false,
+      "routerAuthorized": false,
+      "pools": [
+        {
+          "pool": "native-all-models",
+          "windows": [
+            {
+              "name": "session",
+              "remainingPercent": 75,
+              "quantitySource": {
+                "kind": "remaining",
+                "value": 75,
+                "operation": "identity"
+              },
+              "reset": {
+                "kind": "relative-rounded",
+                "relativeMinutes": 180,
+                "absolute": null,
+                "timezone": null
+              },
+              "unavailable": false
+            },
+            {
+              "name": "weekly",
+              "remainingPercent": 65,
+              "quantitySource": {
+                "kind": "remaining",
+                "value": 65,
+                "operation": "identity"
+              },
+              "reset": {
+                "kind": "relative-rounded",
+                "relativeMinutes": 180,
+                "absolute": null,
+                "timezone": null
+              },
+              "unavailable": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

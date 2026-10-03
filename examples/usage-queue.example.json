@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "tasks": [
+    {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "prompt": "Draft a short synthetic test summary.",
+      "classification": "public",
+      "approval": "not-required",
+      "providers": [
+        "antigravity"
+      ],
+      "role": "draft",
+      "size": "small",
+      "permissionScope": "text-only",
+      "timeoutSeconds": 60,
+      "allowExecute": false,
+      "estimates": {
+        "antigravity": {
+          "durationSeconds": 30,
+          "windows": {
+            "five-hour": 5,
+            "weekly": 2
+          }
+        }
+      },
+      "taskScope": {
+        "reviewed": true,
+        "acceptInheritedPermissions": true,
+        "acknowledgeInstructionScope": true,
+        "mode": "plan",
+        "description": "Draft supplied text only; no tools or actions."
+      }
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000102",
+      "prompt": "Suggest a small synthetic implementation change.",
+      "classification": "public",
+      "approval": "not-required",
+      "providers": [
+        "claude"
+      ],
+      "role": "implementation",
+      "size": "small",
+      "permissionScope": "text-only",
+      "timeoutSeconds": 60,
+      "allowExecute": false,
+      "estimates": {
+        "claude": {
+          "durationSeconds": 30,
+          "windows": {
+            "session": 5,
+            "weekly": 2
+          }
+        }
+      }
+    }
+  ]
+}

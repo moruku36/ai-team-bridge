@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "feature": "on-demand official usage observation through a supported connected PTY",
+  "author": "Codex",
+  "offlineTests": {
+    "passed": 133,
+    "failed": 0,
+    "syntheticFixturesOnly": true
+  },
+  "liveWindows": {
+    "claudeOfficialUsageObserved": true,
+    "claudeAllRequiredValuesRecovered": false,
+    "antigravitySharedPoolsRecoveredAcrossPages": true,
+    "ownedProviderSessionsExited": true,
+    "backendFetchTimestampVerified": false,
+    "completeExactResetVerified": false,
+    "automaticRoutingAuthorized": false,
+    "modelPromptsSent": 0,
+    "cloudFollowUpsSent": 0,
+    "nativeConsoleAdapterShipped": false,
+    "existingConnectedTerminalRequired": true,
+    "bundledConnectedHost": true,
+    "claudeBundledHostPassed": true,
+    "antigravityBundledHostPassed": true,
+    "claudeFailedObservationDiscarded": true,
+    "usageHostDoesNotGuaranteeForcedTermination": true,
+    "claudeBundledHostLifecyclePassed": true,
+    "claudeLiveForcedStopUsed": false,
+    "claudeLiveDisplayRateLimited": true,
+    "strictOwnedStopLiveVerified": false,
+    "strictOwnedStopSyntheticVerified": true
+  },
+  "publication": {
+    "actualUsageValuesIncluded": false,
+    "accountIdentifiersIncluded": false,
+    "rawProviderOutputIncluded": false,
+    "privateWorkspacePathsIncluded": false
+  },
+  "limits": [
+    "no unattended daemon",
+    "no new auth or trust",
+    "no credential extraction",
+    "no paid API configuration",
+    "no quota inference",
+    "no duplicate cloud requests",
+    "no general multi-model routing"
+  ],
+  "review": {
+    "claudeTextReviewRecovered": true,
+    "antigravityTextReviewRecovered": true,
+    "privateHashReadbackVerified": true,
+    "reviewTranscriptsIncluded": false,
+    "claudeCleanupFixRecovered": true,
+    "antigravityCleanupReviewRecovered": true,
+    "antigravityAppliedCleanupReviewPassed": false,
+    "antigravityAppliedCleanupReviewOutcome": "provider_failed"
+  },
+  "selection": {
+    "advisoryOnly": true,
+    "unchangedStrictRouter": true,
+    "unknownBackendPolicyExplicit": true,
+    "unknownResetNeverInferred": true,
+    "sharedPoolReservations": true,
+    "syntheticDryRunPassed": true,
+    "normalizationDesignClaudeReadbackVerified": true,
+    "normalizationDesignAntigravityReadbackVerified": true,
+    "productionDispatches": 0,
+    "codexBarCodexAdapterSupported": false
+  }
+}

@@ -12,12 +12,10 @@
     "task-router.mjs": "6196679ac4a01b9d83c321f7ea509fd8563a5147aa67700602615cfaf9430d21",
     "router-cli.mjs": "deba728569cc04431fc806b7bab1f260d17cdf6473eee9f4bf2928e37b5f6dea",
     "test/quota-snapshots.test.mjs": "cdd8c094f294886da07b8d88e1e6ea0164dbdc68c294f5305ef38c00181868ea",
-    "test/task-router.test.mjs": "b0bda89eb30cfa8f6e26a7c77ffe4343a65bef0c4a678590aeaaf3abf0ee112d",
     "docs/QUOTA-ROUTING.md": "83a81276e9c9d3c8a6c461a0036e91a2fec2397f96b3443d26e669a70ebf4eee",
     "docs/CLOUD-READBACK.md": "43d06fce04d201c43f53fbf505ec3f23190e2a19af3f3415d5e3cad8989d09f0",
     "examples/routing-queue.example.json": "41c179bf2e9c0677d4202ce15f45ade3ff4d0af885303598c2aa348bc98e41e8",
     "examples/quota-snapshot.example.json": "749fb79da7ea45bec5247e4ee1f0c66b84a385933890890c721530b15f9f4925",
-    "examples/routing-policy.example.json": "148c81e44807179e6caaf5c50aedf061a6a9808d716c8ba31afcaeaab739e2bd",
     "test/routing-review.test.mjs": "a01701715c1b00a50332cae94b9076e2d4385900c563e874b9a7f6b1f0703b1c",
     "test/routing-capture.test.mjs": "380ff5c84dbe44d869989abd0cbb6489a70b2cac28a1bf1006b83f2aaa6a9acc"
   },
@@ -68,5 +66,18 @@
         "test/routing-capture.test.mjs": "380ff5c84dbe44d869989abd0cbb6489a70b2cac28a1bf1006b83f2aaa6a9acc"
       }
     }
-  ]
+  ],
+  "supersededArtifacts": {
+    "examples/routing-policy.example.json": {
+      "originalClaudeHash": "148c81e44807179e6caaf5c50aedf061a6a9808d716c8ba31afcaeaab739e2bd",
+      "currentEditor": "Codex",
+      "reason": "remove expired temporary preference from ordinary-distribution example and update its assertion"
+    },
+    "test/task-router.test.mjs": {
+      "originalClaudeHash": "b0bda89eb30cfa8f6e26a7c77ffe4343a65bef0c4a678590aeaaf3abf0ee112d",
+      "currentEditor": "Codex",
+      "reason": "remove expired temporary preference from ordinary-distribution example and update its assertion"
+    }
+  },
+  "currentScopeNote": "artifactHashes binds unchanged Claude-created router artifacts only. New official usage collector and changed policy/test are authored by Codex; historical revision hashes describe their original revisions."
 }
