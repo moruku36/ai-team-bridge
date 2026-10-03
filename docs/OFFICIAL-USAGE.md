@@ -4,7 +4,22 @@ This feature collects an observation through the already connected Windows termi
 
 ## Supported host integration
 
-The caller needs its existing supported PTY start/read/write/close operations, a user-approved empty workspace already trusted by the provider, and the existing subscription login. `usage-terminal.mjs` is a bounded action protocol; it is not a standalone PTY library. No native console adapter ships. An attempted native adapter did not reliably establish interactive CLI input and was removed, rather than falling back to print mode.
+The bundled `connected-terminal-host.mjs` exports `collectConnectedUsage()`. Supply the already connected terminal's `exec` and `exchange` capabilities (supported `exec_command` and `write_stdin` argument/result shapes), the absolute source checkout path, and a separate empty directory previously approved and trusted by the provider. Both scope acknowledgments must be true. This module has no Node imports or external endpoints and does not install a PTY library. The terminal remains a host capability; running `usage-cli.mjs` alone does not supply it.
+
+```js
+import {collectConnectedUsage} from './connected-terminal-host.mjs';
+const observation = await collectConnectedUsage('antigravity', {
+  terminal: {exec: connectedTerminal.exec, exchange: connectedTerminal.exchange},
+  workspace: previouslyTrustedEmptyDirectory,
+  sourceDirectory: sourceCheckout,
+  confirmDisplayOnly: true,
+  confirmPreviouslyTrustedWorkspace: true,
+  signal,
+  onProgress: ({provider, stage}) => showProgress(provider, stage)
+});
+```
+
+Terminal methods must support bounded reads and normal approval-reviewed execution. The host checks the empty non-reparse workspace, reuses the existing subscription guard, starts the protocol with raw input echo disabled, validates every action, rebuilds an output allowlist, and closes only session IDs it created. Split frames are polled without resending input. Never log terminal method results; persist only the returned observation and static progress events. Base64 framing itself is not redaction.
 
 Start `node usage-terminal.mjs --provider claude` (or `antigravity`) with stdin kept open. Its action frames are short base64 lines between `USAGE_ACTION_BEGIN` and `USAGE_ACTION_END`; use `decodeAction()` to decode them. Frames carry allowlisted actions/observations, never raw provider output.
 
@@ -13,7 +28,7 @@ The host starts only its own new provider session, in the separately approved wo
 - Claude: `--safe-mode --tools "" --strict-mcp-config --model sonnet --ax-screen-reader`
 - Antigravity: `--model gemini-3.8-flash-medium --mode plan --sandbox`
 
-Send each terminal output chunk to the protocol's stdin as one JSON line `{output, exited}`. Never echo or save the raw chunk: a provider's header may contain account data. Follow `read`, `write`, `exit-own-session`, or `close-own-session` only for the session ID created for this invocation. The protocol sends `/usage` once; for a paginated AGY panel it sends bounded Page Down operations. On completion it requests Escape then `/exit`. Trust/login prompts, cancellation, an exited CLI, a 2MiB input limit, 20 replies, or 90 seconds stop collection. The protocol has its own timeout; the host must also enforce the bound and close only its owned CLI in a `finally` block, including protocol EOF or malformed frames. Cancellation of a model/resource operation is outside this display-only protocol.
+Send each terminal output chunk to the protocol's stdin as one JSON line `{output, exited}`. Never echo or save the raw chunk: a provider's header may contain account data. Follow `read`, `write`, `exit-own-session`, or `close-own-session` only for the session ID created for this invocation. The protocol sends `/usage` once; for a paginated AGY panel it sends bounded Page Down operations. On completion it requests Escape then `/exit`. Trust/login prompts, cancellation, an exited CLI, a 2MiB input limit, 20 replies, or 90 seconds stop collection. The protocol has its own timeout; the bundled host also enforces the collection bound and attempts bounded cleanup only on its owned CLI in a `finally` block, including protocol EOF or malformed frames. Cleanup is additional to the collection deadline and depends on bounded terminal calls. If exit cannot be verified, the result is `cleanup_unconfirmed`, measurements are discarded, and the caller must review only its own recorded session before proceeding. The host does not kill arbitrary provider processes. Cancellation of a model/resource operation is outside this display-only protocol.
 
 `collectOfficialUsage()` is a library adapter accepting a reviewed terminal `runner`. It fails with `terminal_driver_required` when no runner is supplied; `usage-cli.mjs` therefore fails closed without a host adapter. It never sends `/usage` through `-p`/print mode. Existing provider-owned logs and local CLI history are outside this feature's control; it does not read them.
 
@@ -35,6 +50,10 @@ The sample policy has no temporary provider preference. A user-specified histori
 
 ## Verification
 
-Offline tests use synthetic console screens and dates. Windows live collection was exercised through the connected supported PTY with existing authentication/trust. Some Claude aggregate data remained unparsed/unknown; AGY shared group/window data was recovered across pages. Actual percentages, account data, request/session IDs, local workspace paths and raw terminal bytes are excluded from public artifacts. Live capture proves this installed display path, not stable provider APIs or complete routing authorization. `USAGE-VALIDATION.json` records only the validation scope.
+Offline tests use synthetic console screens and dates. Windows live collection was exercised through the connected supported PTY with existing authentication/trust. The bundled host recovered AGY shared groups across pages with one usage command, one page command, zero model prompts, and verified owned process exits. Its Claude live attempt failed exit verification; that observation was discarded and the exact owned process was separately stopped after an ownership check. Earlier protocol-only Claude observations remained incomplete. Claude host collection is not claimed to pass. Actual percentages, account data, request/session IDs, local workspace paths and raw terminal bytes are excluded from public artifacts. Live capture proves this installed display path, not stable provider APIs or complete routing authorization. `USAGE-VALIDATION.json` records only the validation scope.
 
 Primary sources: [Claude usage](https://code.claude.com/docs/en/costs), [Claude CLI](https://code.claude.com/docs/en/cli-reference), [AGY quotas](https://www.antigravity.google/docs/cli/commands/usage), [AGY CLI](https://www.antigravity.google/docs/cli/reference/).
+
+## Codex and CodexBar
+
+Installed Codex CLI 0.30.0 help exposes no supported quota export. Do not invent a subcommand or read credential stores. Existing visible CodexBar UI can be read through Windows UI Automation, scoped to the app’s process/window subtree, without invoking its credential-backed collector. This is a separate manually reviewed UI observation: it may round percentages, provide only countdown resets and omit backend freshness. A missing active session is unknown capacity, not 100% remaining. No CodexBar cache/export collector is bundled and no UI value authorizes routing automatically.

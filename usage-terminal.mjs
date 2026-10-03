@@ -26,7 +26,7 @@ export class UsageTerminal {
       const ready=this.provider==='claude'?/Claude Code v/.test(this.raw)&&/effort:/.test(this.raw):/Antigravity CLI/.test(this.raw)&&/for shortcuts/.test(this.raw);
       if(ready){this.phase='usage';return {action:'write',text:'/usage\r'};}
     }else if(this.phase==='usage') {
-      const panel=this.provider==='claude'?/Current session/.test(screen)&&/Current week/.test(screen):/Weekly Limit Remaining/.test(screen)&&/Five Hour Limit Remaining/.test(screen);
+      const panel=this.provider==='claude'?/Current session/.test(screen):/Weekly Limit Remaining/.test(screen)&&/Five Hour Limit Remaining/.test(screen);
       if(panel){this.phase='settle';return {action:'read'};}
     }else if(this.phase==='settle') {
       this.result=parseUsage(this.raw,this.provider,{observationStartedAt:this.started,observedAt:this.now()});
@@ -69,8 +69,8 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   try {
     const [flag,provider]=process.argv.slice(2);if(flag!=='--provider'||process.argv.length!==4)throw Error();
     const protocol=new UsageTerminal(provider);
-    process.stdout.write(encodeAction({action:'start-approved-pty',provider,maximumDurationSeconds:90,trustAcceptance:false,login:false,modelPrompts:false}));
     if(process.stdin.isTTY)process.stdin.setRawMode(true); // Never echo raw provider replies.
+    process.stdout.write(encodeAction({action:'start-approved-pty',provider,maximumDurationSeconds:90,trustAcceptance:false,login:false,modelPrompts:false,rawInputEchoDisabled:process.stdin.isTTY===true}));
     const input=createInterface({input:process.stdin,terminal:false});
     const timer=setTimeout(()=>{
       process.stdout.write(encodeAction({action:'close-own-session',result:{schema:1,outcome:'blocked',reason:'collection_timeout',routerAuthorized:false}}));

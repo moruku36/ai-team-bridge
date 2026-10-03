@@ -2,7 +2,11 @@
   "schema": 1,
   "feature": "on-demand official usage observation through a supported connected PTY",
   "author": "Codex",
-  "offlineTests": {"passed": 100, "failed": 0, "syntheticFixturesOnly": true},
+  "offlineTests": {
+    "passed": 108,
+    "failed": 0,
+    "syntheticFixturesOnly": true
+  },
   "liveWindows": {
     "claudeOfficialUsageObserved": true,
     "claudeAllRequiredValuesRecovered": false,
@@ -14,7 +18,12 @@
     "modelPromptsSent": 0,
     "cloudFollowUpsSent": 0,
     "nativeConsoleAdapterShipped": false,
-    "existingConnectedTerminalRequired": true
+    "existingConnectedTerminalRequired": true,
+    "bundledConnectedHost": true,
+    "claudeBundledHostPassed": false,
+    "antigravityBundledHostPassed": true,
+    "claudeFailedObservationDiscarded": true,
+    "usageHostDoesNotGuaranteeForcedTermination": true
   },
   "publication": {
     "actualUsageValuesIncluded": false,
@@ -22,5 +31,19 @@
     "rawProviderOutputIncluded": false,
     "privateWorkspacePathsIncluded": false
   },
-  "limits": ["no unattended daemon", "no new auth or trust", "no credential extraction", "no paid API configuration", "no quota inference", "no duplicate cloud requests", "no general multi-model routing"]
+  "limits": [
+    "no unattended daemon",
+    "no new auth or trust",
+    "no credential extraction",
+    "no paid API configuration",
+    "no quota inference",
+    "no duplicate cloud requests",
+    "no general multi-model routing"
+  ],
+  "review": {
+    "claudeTextReviewRecovered": true,
+    "antigravityTextReviewRecovered": true,
+    "privateHashReadbackVerified": true,
+    "reviewTranscriptsIncluded": false
+  }
 }
