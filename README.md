@@ -56,7 +56,7 @@ Use `examples/antigravity.local.example.json` for Antigravity only after reviewi
 
 - Local paths and short responses were verified with both providers: capture, hash check, and readback.
 - 12 substantive Claude review responses were verified through readback and hash checks. The requests and responses are not published.
-- 115 offline tests cover request validation, duplicate prevention, process handling, result retention, and diagnostic suppression and redaction. They do not replace live provider checks.
+- 133 offline tests cover request validation, duplicate prevention, process handling, result retention, and diagnostic suppression and redaction. They do not replace live provider checks.
 
 For existing Claude cloud sessions, only queue receipt is confirmed. Receipt is not reply retrieval; cloud replies and remote completion remain unverified. There is no equivalent Antigravity cloud route. Bounded routing from reviewed normalized snapshots is implemented; automatic complete quota-to-routing, provider fallback and a continuous worker are not implemented.
 
@@ -75,3 +75,7 @@ This repository contains only source, synthetic examples, tests, and documentati
 ## On-demand usage and routing
 
 See [official usage collection](docs/OFFICIAL-USAGE.md) for the bundled connected-terminal host, empty trusted workspace requirements, output redaction and bounded cleanup. AGY paging/exit passed live; Claude host lifecycle now passed live with graceful verified exit; its rate-limited quota display remained unknown. Missing freshness or exact resets remain unknown. [Quota routing](docs/QUOTA-ROUTING.md) accepts separately reviewed normalized snapshots; collection alone never authorizes dispatch. Run the full synthetic suite with `node --test`.
+
+## Reviewed observation selection
+
+[Usage-to-queue dry runs](docs/USAGE-SELECTION.md) select review candidates from recent reviewed known percentages while preserving unknown backend/reset evidence. No inferred deadline or execution permission is produced. Collection needs the connected host; the selector CLI runs on reviewed local JSON. CodexBar/Codex normalization is unsupported.

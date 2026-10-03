@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "reviewed": true,
+  "purpose": "advisory-only",
+  "maxObservationAgeSeconds": 120,
+  "safetyMarginPercent": 1,
+  "unknownBackend": "allow-observed-freshness",
+  "unknownReset": "advisory-only",
+  "ranking": "policy-order",
+  "mappings": [
+    {"provider":"claude","accountScope":"claude-main","modelScope":"sonnet","pool":"native-all-models","scopeReviewed":true},
+    {"provider":"antigravity","accountScope":"agy-main","modelScope":"gemini-3.8-flash-medium","pool":"gemini-shared","scopeReviewed":true}
+  ]
+}

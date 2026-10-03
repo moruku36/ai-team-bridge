@@ -3,7 +3,7 @@
   "feature": "on-demand official usage observation through a supported connected PTY",
   "author": "Codex",
   "offlineTests": {
-    "passed": 115,
+    "passed": 133,
     "failed": 0,
     "syntheticFixturesOnly": true
   },
@@ -54,5 +54,17 @@
     "antigravityCleanupReviewRecovered": true,
     "antigravityAppliedCleanupReviewPassed": false,
     "antigravityAppliedCleanupReviewOutcome": "provider_failed"
+  },
+  "selection": {
+    "advisoryOnly": true,
+    "unchangedStrictRouter": true,
+    "unknownBackendPolicyExplicit": true,
+    "unknownResetNeverInferred": true,
+    "sharedPoolReservations": true,
+    "syntheticDryRunPassed": true,
+    "normalizationDesignClaudeReadbackVerified": true,
+    "normalizationDesignAntigravityReadbackVerified": true,
+    "productionDispatches": 0,
+    "codexBarCodexAdapterSupported": false
   }
 }
