@@ -9,9 +9,9 @@ Status: implemented and covered by offline tests with synthetic fixtures only. *
 - `router-cli.mjs`: `dry-run` (default) and `execute` commands.
 - `examples/*.example.json`: synthetic queue, snapshot and policy. The snapshot is marked `mock`, so it can never authorize a live call.
 
-## Quota collection: manual blocker
+## Quota collection: reviewed CLI adapter and historical limits
 
-No automatic collector is shipped, because none could be verified safe:
+The [Windows quota CLI adapter](WINDOWS-QUOTA-CLI.md) now supplies a bounded, one-shot collector for the explicitly reviewed existing-login routes. Its packaged implementation has synthetic offline verification; the underlying pinned CLI commands succeeded previously. It does not collect Codex or enable autonomous routing. The following earlier v0.60.3 findings explain why arbitrary credential-backed fallback remains out of scope:
 
 - Win-CodexBar 0.60.3 (`codexbar.exe` / `codexbar-cli.exe`) documents `usage --provider P --json --source auto|web|cli|oauth` and a one-shot `dashboard --identity redacted` that fetches every enabled provider.
 - In the public v0.60.3 source the Claude provider's `SourceMode::Cli` falls back to OAuth after some CLI failures, and the Codex provider fetches OAuth-backed usage. Running these would touch credential-backed fetches that this project does not authorize.
@@ -22,7 +22,7 @@ Sources: <https://github.com/nesszer/Win-CodexBar> and <https://github.com/nessz
 Accepted inputs today:
 
 1. A **manual snapshot** you typed or reviewed yourself (`source: manual`, `reviewed: true`).
-2. A **supported export** adapted by an injected collector object `{id, source: 'supported-export', collect()}`, whose snapshots carry `provenance: {adapter, scopeVerified: true}`. No such adapter exists or is verified yet; the plug-in point is `collectSnapshots`. File import rejects `supported-export`.
+2. A **supported export** adapted by an injected collector object `{id, source: 'supported-export', collect()}`, whose snapshots carry `provenance: {adapter, scopeVerified: true}`. The Windows quota CLI adapter uses `collectSnapshots` after explicit account/pool review and freshness/reset checks. File import rejects `supported-export`.
 3. A **mock** (`source: mock`) for demos and tests. A mock is identified, may appear in dry runs (flagged `liveAuthorized: false` and warning `mock_quota_not_live`), and never authorizes execution.
 
 ## Snapshot schema
