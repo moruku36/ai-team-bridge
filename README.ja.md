@@ -1,5 +1,7 @@
 # ai-team-bridge
 
+既存のWin-CodexBar 0.70.0 / Antigravity 1.3.5を使う単発の残量取得手順とCLIは、[Windows残量取得](docs/WINDOWS-QUOTA-CLI.md)を参照してください。実測出力は私的情報です。自動ルーティングは有効にしません。
+
 [English](README.md) · [日本語](README.ja.md) · [仕様](SPEC.md) · [安全性](SAFETY.md)
 
 ## 開発の背景

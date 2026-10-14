@@ -28,6 +28,10 @@ Task routing assigns who works; execution controls determine which actions are a
 
 It does not create credentials, start OAuth, configure a paid API, install providers, or set up a daemon. Models are limited to the inventory-verified `sonnet` and `gemini-3.8-flash-medium`; availability can change. The requested model and the observed backend model are recorded separately, and missing backend metadata is `UNKNOWN`.
 
+## Quota metadata collection
+
+For existing Win-CodexBar 0.70.0 / Antigravity 1.3.5 installations, see the [Windows quota CLI runbook](docs/WINDOWS-QUOTA-CLI.md). The one-shot `quota-collect-cli.mjs` emits allowlisted metadata only; account review, freshness, exact resets and shared-pool scope remain explicit at the existing collector boundary. Real quota output is private. This does not enable automatic routing.
+
 ## Usage
 
 Offline tests do not invoke either provider and need no dependency installation:
