@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Windows CLI bridge for bounded Claude Code and Antigravity requests",
   "engines": {
-    "node": ">=18"
+    "node": ">=22.23.2"
   },
   "scripts": {
     "test": "node --test test/*.test.mjs"
