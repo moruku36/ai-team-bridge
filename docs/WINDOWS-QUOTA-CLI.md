@@ -4,7 +4,7 @@
 
 ## Prerequisites and one-shot use
 
-- Windows and Node.js 18+; no npm dependencies.
+- Windows and Node.js 22.23.2 or later (see `.nvmrc`); no npm dependencies.
 - Existing Win-CodexBar **0.70.0** with existing Claude credential-read consent already enabled, and existing Claude subscription login; or existing `agy` **1.3.5** with its subscription login. Versions are deliberately pinned. Other versions return `unsupported_version` before the usage command. Do not relax the guard without reviewing command behavior and JSON fixtures.
 - Run as the same approved Windows user who owns those logins, in the normal authorized execution context. A sandbox/approval rejection is a stop, not a reason to extract credentials or change permissions. Account alignment with a GUI is not established by this tool.
 - Pass the reviewed executable's absolute `.exe` path. The tool does not search browser caches, credential files, or private history. A nonstandard installation path works when explicitly supplied; no personal paths belong in the public repo.

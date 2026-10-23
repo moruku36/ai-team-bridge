@@ -1,0 +1,28 @@
+sequenceDiagram
+  actor Op as Operator
+  participant W as wrapper.mjs
+  participant FS as data/requests/UUID
+  participant PS as private-output.ps1
+  participant P as Provider CLI
+
+  Op->>W: send request.json
+  W->>W: validate fields, model, scope
+  W->>P: read-only subscription preflight
+  P-->>W: existing login confirmed
+  W->>FS: mkdir UUID (atomic reservation)
+  opt captureResult is true
+    W->>PS: restrict folder ACL
+    PS-->>W: private true
+  end
+  W->>FS: status.json (unknown / started)
+  W->>P: prompt on stdin (timeout, 2 MiB cap)
+  P-->>W: JSON or NDJSON result
+  W->>W: classify state
+  W->>FS: status.json (final state)
+  opt executed or verified with capture
+    W->>FS: result.json + SHA-256
+  end
+  W-->>Op: metadata, exit 0 / 1 / 2
+  Op->>W: read-result UUID
+  W->>FS: read result.json
+  W-->>Op: response after hash check

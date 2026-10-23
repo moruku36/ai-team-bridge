@@ -1,0 +1,38 @@
+flowchart LR
+  OP([Operator]) --> REQ[request.json]
+  OP --> RQ[queue / snapshots / policy]
+
+  subgraph Bridge [ai-team-bridge]
+    direction TB
+    QCLI[quota-collect-cli.mjs]
+    SNAP[quota-snapshots.mjs]
+    ROUTER[router-cli.mjs + task-router.mjs]
+    DIAG[wrapper-diagnostics-v2.mjs]
+    CORE[wrapper.mjs]
+    ACL[private-output.ps1]
+    QCLI -- reviewed collector --> SNAP
+    SNAP --> ROUTER
+    ROUTER -- execute: one task --> DIAG
+    DIAG --> CORE
+    CORE -- captureResult --> ACL
+  end
+
+  subgraph Storage [Private local storage]
+    LEDGER[(data/routing/UUID)]
+    STORE[(data/requests/UUID)]
+  end
+
+  subgraph Providers [Existing subscription CLIs]
+    QB[codexbar-cli.exe / agy /usage]
+    CLAUDE[claude.exe]
+    AGY[agy.exe]
+  end
+
+  REQ --> DIAG
+  RQ --> ROUTER
+
+  QCLI -- one-shot usage --> QB
+  CORE -- stdin, no shell --> CLAUDE
+  CORE -- stdin, no shell --> AGY
+  ROUTER -- reservation --> LEDGER
+  CORE -- status / result --> STORE

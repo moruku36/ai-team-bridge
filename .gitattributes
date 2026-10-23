@@ -1,0 +1,5 @@
+# LF everywhere so SOURCE-MANIFEST.json hashes match on Windows checkouts and in CI.
+* text=auto eol=lf
+*.svg text eol=lf
+# Historical v2.1.0 validation record, committed with CRLF; keep its bytes (and hash) unchanged.
+diagnostics-v2-manifest.json -text
