@@ -1,0 +1,14 @@
+stateDiagram-v2
+  [*] --> reserved: UUID directory created
+  reserved --> rejected: private storage unavailable
+  reserved --> started: status.json written
+  started --> accepted: cloud ok (ack only)
+  started --> executed: local final answer
+  executed --> verified: matches expectResponse
+  started --> rejected: provider error
+  started --> unknown: timeout, cancel, output limit, invalid output
+  accepted --> [*]
+  executed --> [*]
+  verified --> [*]
+  rejected --> [*]
+  unknown --> [*]

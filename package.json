@@ -1,6 +1,6 @@
 {
   "name": "ai-team-bridge",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "type": "module",
   "description": "Windows CLI bridge for bounded Claude Code and Antigravity requests",
@@ -8,6 +8,8 @@
     "node": ">=22.23.2"
   },
   "scripts": {
-    "test": "node --test test/*.test.mjs"
+    "test": "node --test test/*.test.mjs",
+    "manifest:check": "node scripts/source-manifest.mjs check",
+    "manifest:update": "node scripts/source-manifest.mjs update"
   }
 }

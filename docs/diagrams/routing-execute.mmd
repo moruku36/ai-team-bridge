@@ -1,0 +1,14 @@
+flowchart TD
+  A[router-cli execute --task UUID --confirm-execute] --> B{Eligible now?<br/>full snapshot import, allowExecute, live quota}
+  B -- No --> X1[blocked / handoff_required]
+  B -- Yes --> C{Routing reservation exists?}
+  C -- Yes --> X2[already_reserved / conflicting_task_payload]
+  C -- No --> D[Subscription preflight + re-evaluate]
+  D -- fails or changed --> X3[preflight_failed / blocked]
+  D -- ok --> E[(Atomic reservation + ledger)]
+  E --> F{Final re-check with real clock}
+  F -- changed or canceled --> X4[blocked, reservation kept]
+  F -- ok --> G[executeWithDiagnostics: one generation]
+  G --> H{executed or verified<br/>and readback hash OK?}
+  H -- No --> X5[exit 2: no retry, no fallback]
+  H -- Yes --> OK([exit 0])
